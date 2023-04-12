@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.githubuser.ListUserAdapter
+import com.dicoding.githubuser.ui.ListUserAdapter
 import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
 import com.dicoding.githubuser.databinding.FragmentFollowBinding
 

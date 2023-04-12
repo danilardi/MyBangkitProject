@@ -13,7 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.githubuser.ListUserAdapter
+import com.dicoding.githubuser.ui.ListUserAdapter
 import com.dicoding.githubuser.R
 import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
 import com.dicoding.githubuser.databinding.ActivityMainBinding
