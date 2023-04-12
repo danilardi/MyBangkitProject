@@ -3,7 +3,6 @@ package com.dicoding.githubuser
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import kotlin.math.log
+import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
+import com.dicoding.githubuser.ui.detailUser.DetailUserActivity
 
 class ListUserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adapter<ListUserAdapter.ViewHolder>() {
 

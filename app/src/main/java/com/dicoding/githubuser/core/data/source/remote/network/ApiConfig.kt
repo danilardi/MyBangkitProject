@@ -1,4 +1,4 @@
-package com.dicoding.githubuser
+package com.dicoding.githubuser.core.data.source.remote.network
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.Interceptor
@@ -7,8 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig {
-    companion object {
+object ApiConfig {
         fun getApiService(): ApiService {
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
@@ -33,5 +32,4 @@ class ApiConfig {
                 .build()
             return retrofit.create(ApiService::class.java)
         }
-    }
 }

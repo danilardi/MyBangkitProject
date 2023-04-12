@@ -1,12 +1,12 @@
-package com.dicoding.githubuser
+package com.dicoding.githubuser.ui.main
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide.init
+import com.dicoding.githubuser.core.data.source.remote.network.ApiConfig
+import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
+import com.dicoding.githubuser.core.data.source.remote.response.SearchUserGithubResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

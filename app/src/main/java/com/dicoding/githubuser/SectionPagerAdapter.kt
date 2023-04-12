@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.dicoding.githubuser.ui.detailUser.FollowFragment
 
 class SectionPagerAdapter(activity: AppCompatActivity, userName: String?) : FragmentStateAdapter(activity) {
     var username: String? = userName

@@ -1,4 +1,4 @@
-package com.dicoding.githubuser
+package com.dicoding.githubuser.ui.detailUser
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +8,9 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.dicoding.githubuser.R
+import com.dicoding.githubuser.SectionPagerAdapter
+import com.dicoding.githubuser.core.data.source.remote.response.DetailUserResponse
 import com.dicoding.githubuser.databinding.ActivityDetailUserBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

@@ -1,5 +1,8 @@
-package com.dicoding.githubuser
+package com.dicoding.githubuser.core.data.source.remote.network
 
+import com.dicoding.githubuser.core.data.source.remote.response.DetailUserResponse
+import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
+import com.dicoding.githubuser.core.data.source.remote.response.SearchUserGithubResponse
 import retrofit2.Call
 import retrofit2.http.*
 
