@@ -1,5 +1,6 @@
-package com.dicoding.githubuser.ui
+package com.dicoding.githubuser.ui.favoriteUser
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -9,18 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.dicoding.githubuser.R
-import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
+import com.dicoding.githubuser.core.data.source.local.entity.FavoriteUserEntity
+import com.dicoding.githubuser.ui.ListUserAdapter
 import com.dicoding.githubuser.ui.detailUser.DetailUserActivity
 
-class ListUserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adapter<ListUserAdapter.ViewHolder>() {
-
+class ListFavoriteUserAdapter(private val listUser: List<FavoriteUserEntity>) : RecyclerView.Adapter<ListFavoriteUserAdapter.ViewHolder>() {
     companion object {
-        private val TAG = "ListUserAdapter"
+        private val TAG = "ListFavoriteUserAdapter"
     }
-
+    
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val ivProfile: ImageView = view.findViewById(R.id.iv_profile)
         val tvUsername: TextView = view.findViewById(R.id.tv_username)
@@ -33,15 +36,16 @@ class ListUserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adap
     override fun getItemCount() = listUser.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder: ${listUser[position].login}")
-        holder.tvUsername.text = listUser[position].login
+        Log.d(TAG, "onBindViewHolder: ${listUser[position].username}")
+        holder.tvUsername.text = listUser[position].username
         holder.tvDesc.text = listUser[position].htmlUrl
         Glide.with(holder.ivProfile)
             .load(listUser[position].avatarUrl)
+            .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_error))
             .into(holder.ivProfile)
         holder.itemView.setOnClickListener{
             val intent = Intent(holder.itemView.context, DetailUserActivity::class.java)
-            intent.putExtra(DetailUserActivity.EXTRA_USER, listUser[position].login)
+            intent.putExtra(DetailUserActivity.EXTRA_USER, listUser[position].username)
             holder.itemView.context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(
                 holder.itemView.context as Activity?
             ).toBundle())

@@ -2,10 +2,12 @@ package com.dicoding.githubuser.ui.main
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.Explode
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.widget.Toast
@@ -17,6 +19,7 @@ import com.dicoding.githubuser.ui.ListUserAdapter
 import com.dicoding.githubuser.R
 import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
 import com.dicoding.githubuser.databinding.ActivityMainBinding
+import com.dicoding.githubuser.ui.favoriteUser.FavoriteUserActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,7 +81,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+
+
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favorite -> {
+                val intent = Intent(this, FavoriteUserActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+            else -> return true
+        }
     }
 
     private fun setUserData(userData: List<ItemsItem>) {
