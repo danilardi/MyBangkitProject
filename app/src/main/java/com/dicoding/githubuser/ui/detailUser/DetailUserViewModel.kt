@@ -4,13 +4,18 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.dicoding.githubuser.core.data.repository.FavoriteUserRepository
+import com.dicoding.githubuser.core.data.source.local.entity.FavoriteUserEntity
 import com.dicoding.githubuser.core.data.source.remote.network.ApiConfig
 import com.dicoding.githubuser.core.data.source.remote.response.DetailUserResponse
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
-class DetailUserViewModel : ViewModel() {
+class DetailUserViewModel(private val favoriteUserRepository: FavoriteUserRepository) : ViewModel() {
     companion object {
         private const val TAG = "DetailUserViewModel"
     }
@@ -49,4 +54,30 @@ class DetailUserViewModel : ViewModel() {
             }
         })
     }
+
+    fun insertFavoriteUser() {
+        val favUser = FavoriteUserEntity(
+            _user.value?.login.toString(),
+            _user.value?.avatarUrl,
+            _user.value?.htmlUrl
+        )
+        if (_user.value != null) {
+        viewModelScope.launch {
+            favoriteUserRepository.insertFavoriteUser(favUser)
+        }}
+    }
+
+    fun deleteFavoriteUser() {
+        val favUser = FavoriteUserEntity(
+            _user.value?.login.toString(),
+            _user.value?.avatarUrl,
+            _user.value?.htmlUrl
+        )
+        if (_user.value != null) {
+        viewModelScope.launch {
+            favoriteUserRepository.deleteFavoriteUser(favUser)
+        }}
+    }
+
+    fun getFavoriteUserByUsername(username: String) = favoriteUserRepository.getFavoriteUserByUsername(username)
 }

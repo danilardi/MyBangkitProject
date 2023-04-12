@@ -53,6 +53,8 @@ class FollowViewModel : ViewModel() {
         })
     }
 
+    fun isTes() = true
+
     fun getFollowing(query: String) {
         _isLoading.value = true
         val client = ApiConfig.getApiService().getFollowing(query)

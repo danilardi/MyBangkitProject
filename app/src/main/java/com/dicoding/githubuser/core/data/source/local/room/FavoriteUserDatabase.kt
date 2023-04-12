@@ -18,7 +18,7 @@ abstract class FavoriteUserDatabase : RoomDatabase() {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext,
                     FavoriteUserDatabase::class.java, "FavoriteUser.db"
-                ).build()
+                ).allowMainThreadQueries().build()
             }
     }
 }
