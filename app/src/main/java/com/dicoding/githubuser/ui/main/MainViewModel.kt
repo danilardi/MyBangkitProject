@@ -1,17 +1,17 @@
 package com.dicoding.githubuser.ui.main
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.dicoding.githubuser.core.data.source.remote.network.ApiConfig
 import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
 import com.dicoding.githubuser.core.data.source.remote.response.SearchUserGithubResponse
+import com.dicoding.githubuser.ui.setting.SettingPreferences
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val pref: SettingPreferences): ViewModel() {
 
     companion object {
         private const val TAG = "MainViewModel"
@@ -55,5 +55,15 @@ class MainViewModel : ViewModel() {
                 Log.d(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    fun getThemeSettings(): LiveData<Boolean> {
+        return pref.getThemeSetting().asLiveData()
+    }
+
+    fun saveThemeSetting(isDarkModeActive: Boolean) {
+        viewModelScope.launch {
+            pref.saveThemeSetting(isDarkModeActive)
+        }
     }
 }

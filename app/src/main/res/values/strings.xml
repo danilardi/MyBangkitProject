@@ -12,4 +12,6 @@
     <string name="loading">loading</string>
     <string name="splashlogo">SplashLogo</string>
     <string name="favorite">favorite</string>
+    <string name="setting">setting</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

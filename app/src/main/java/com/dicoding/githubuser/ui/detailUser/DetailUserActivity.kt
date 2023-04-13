@@ -1,29 +1,30 @@
 package com.dicoding.githubuser.ui.detailUser
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dicoding.githubuser.R
-import com.dicoding.githubuser.ui.SectionPagerAdapter
 import com.dicoding.githubuser.core.data.source.remote.response.DetailUserResponse
 import com.dicoding.githubuser.databinding.ActivityDetailUserBinding
+import com.dicoding.githubuser.ui.SectionPagerAdapter
 import com.dicoding.githubuser.ui.ViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import es.dmoral.toasty.Toasty
+
 
 class DetailUserActivity : AppCompatActivity() {
     companion object {
         @StringRes
         private val TAB_TITLES = intArrayOf(
-            R.string.tab_text_1,
-            R.string.tab_text_2,
+            com.dicoding.githubuser.R.string.tab_text_1,
+            com.dicoding.githubuser.R.string.tab_text_2,
         )
         const val TAG = "DetailUserActivity"
         const val EXTRA_USER = "extra_user"
@@ -45,9 +46,9 @@ class DetailUserActivity : AppCompatActivity() {
         val userId = intent.getStringExtra(EXTRA_USER)
 
         val sectionPagerAdapter = SectionPagerAdapter(this, userId)
-        val viewPager: ViewPager2 = findViewById(R.id.vp_landing)
+        val viewPager: ViewPager2 = findViewById(com.dicoding.githubuser.R.id.vp_landing)
         viewPager.adapter = sectionPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tl_landing)
+        val tabs: TabLayout = findViewById(com.dicoding.githubuser.R.id.tl_landing)
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
@@ -61,7 +62,7 @@ class DetailUserActivity : AppCompatActivity() {
                 binding.fabAdd.setImageDrawable(
                     ContextCompat.getDrawable(
                         binding.fabAdd.context,
-                        R.drawable.baseline_favorite_24
+                        com.dicoding.githubuser.R.drawable.baseline_favorite_24
                     )
                 )
                 isFavorite = true
@@ -69,7 +70,7 @@ class DetailUserActivity : AppCompatActivity() {
                 binding.fabAdd.setImageDrawable(
                     ContextCompat.getDrawable(
                         binding.fabAdd.context,
-                        R.drawable.baseline_favorite_border_24
+                        com.dicoding.githubuser.R.drawable.baseline_favorite_border_24
                     )
                 )
             }
@@ -124,18 +125,22 @@ class DetailUserActivity : AppCompatActivity() {
             binding.fabAdd.setImageDrawable(
                 ContextCompat.getDrawable(
                     binding.fabAdd.context,
-                    R.drawable.baseline_favorite_24
+                    com.dicoding.githubuser.R.drawable.baseline_favorite_24
                 )
             )
+            val icon = resources.getDrawable(R.drawable.github_logo)
+            Toasty.normal(this, "Added to favorite", icon).show()
             isFavorite = true
         } else {
             detailUserViewModel.deleteFavoriteUser()
             binding.fabAdd.setImageDrawable(
                 ContextCompat.getDrawable(
                     binding.fabAdd.context,
-                    R.drawable.baseline_favorite_border_24
+                    com.dicoding.githubuser.R.drawable.baseline_favorite_border_24
                 )
             )
+            val icon = resources.getDrawable(R.drawable.github_logo)
+            Toasty.normal(this, "Removed from favorite", icon).show()
             isFavorite = false
         }
     }

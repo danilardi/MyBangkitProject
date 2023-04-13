@@ -33,7 +33,6 @@ class ListUserAdapter(private val listUser: List<ItemsItem>) : RecyclerView.Adap
     override fun getItemCount() = listUser.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder: ${listUser[position].login}")
         holder.tvUsername.text = listUser[position].login
         holder.tvDesc.text = listUser[position].htmlUrl
         Glide.with(holder.ivProfile)

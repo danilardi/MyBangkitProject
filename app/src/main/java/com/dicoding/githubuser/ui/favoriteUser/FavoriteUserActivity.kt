@@ -40,6 +40,7 @@ class FavoriteUserActivity : AppCompatActivity() {
         binding.rvUser.addItemDecoration(itemDecoration)
 
         favUserViewModel.getAllFavUser().observe(this) {items ->
+            binding.progressBar.visibility = View.GONE
             setUserData(items)
         }
     }

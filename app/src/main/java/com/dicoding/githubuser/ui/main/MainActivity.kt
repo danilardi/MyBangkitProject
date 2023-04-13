@@ -12,7 +12,11 @@ import android.view.View
 import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.githubuser.ui.ListUserAdapter
@@ -20,12 +24,17 @@ import com.dicoding.githubuser.R
 import com.dicoding.githubuser.core.data.source.remote.response.ItemsItem
 import com.dicoding.githubuser.databinding.ActivityMainBinding
 import com.dicoding.githubuser.ui.favoriteUser.FavoriteUserActivity
+import com.dicoding.githubuser.ui.setting.SettingViewModelFactory
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels<MainViewModel>()
+    private var isDarkModeActive = false
 
+    private lateinit var binding: ActivityMainBinding
+    private val mainViewModel: MainViewModel by viewModels {
+        SettingViewModelFactory.getInstance(dataStore)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         with(window) {
             requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
@@ -46,6 +55,17 @@ class MainActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvUser.addItemDecoration(itemDecoration)
 
+        mainViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                this.isDarkModeActive = true
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+            } else {
+                this.isDarkModeActive = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+
         mainViewModel.listUser.observe(this) { items ->
             setUserData(items)
         }
@@ -65,6 +85,16 @@ class MainActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
 
+        if (isDarkModeActive) {
+            menu.getItem(0).setIcon(R.drawable.baseline_search_white_24)
+            menu.getItem(1).setIcon(R.drawable.baseline_favorite_white_24)
+            menu.getItem(2).setIcon(R.drawable.ic_light_mode)
+        } else {
+            menu.getItem(0).setIcon(R.drawable.baseline_search_24)
+            menu.getItem(1).setIcon(R.drawable.ic_favorite)
+            menu.getItem(2).setIcon(R.drawable.ic_night_mode)
+        }
+
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
@@ -81,8 +111,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
-
         return true
     }
 
@@ -91,6 +119,17 @@ class MainActivity : AppCompatActivity() {
             R.id.favorite -> {
                 val intent = Intent(this, FavoriteUserActivity::class.java)
                 startActivity(intent)
+                return true
+            }
+            R.id.night_mode -> {
+                if (!isDarkModeActive) {
+                    this.isDarkModeActive = true
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                } else {
+                    this.isDarkModeActive = false
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                mainViewModel.saveThemeSetting(isDarkModeActive)
                 return true
             }
             else -> return true

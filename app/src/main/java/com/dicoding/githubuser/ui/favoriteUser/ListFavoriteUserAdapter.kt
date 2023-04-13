@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -19,10 +20,7 @@ import com.dicoding.githubuser.core.data.source.local.entity.FavoriteUserEntity
 import com.dicoding.githubuser.ui.ListUserAdapter
 import com.dicoding.githubuser.ui.detailUser.DetailUserActivity
 
-class ListFavoriteUserAdapter(private val listUser: List<FavoriteUserEntity>) : RecyclerView.Adapter<ListFavoriteUserAdapter.ViewHolder>() {
-    companion object {
-        private val TAG = "ListFavoriteUserAdapter"
-    }
+class ListFavoriteUserAdapter(private val listUser: List<FavoriteUserEntity>) : ListAdapter<FavoriteUserEntity, ListFavoriteUserAdapter.ViewHolder >(DIFF_CALLBACK) {
     
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val ivProfile: ImageView = view.findViewById(R.id.iv_profile)
@@ -36,7 +34,6 @@ class ListFavoriteUserAdapter(private val listUser: List<FavoriteUserEntity>) : 
     override fun getItemCount() = listUser.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d(TAG, "onBindViewHolder: ${listUser[position].username}")
         holder.tvUsername.text = listUser[position].username
         holder.tvDesc.text = listUser[position].htmlUrl
         Glide.with(holder.ivProfile)
@@ -50,5 +47,19 @@ class ListFavoriteUserAdapter(private val listUser: List<FavoriteUserEntity>) : 
                 holder.itemView.context as Activity?
             ).toBundle())
         }
+    }
+
+    companion object {
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<FavoriteUserEntity> =
+            object : DiffUtil.ItemCallback<FavoriteUserEntity>() {
+                override fun areItemsTheSame(oldUser: FavoriteUserEntity, newUser: FavoriteUserEntity): Boolean {
+                    return oldUser.username == newUser.username
+                }
+
+                @SuppressLint("DiffUtilEquals")
+                override fun areContentsTheSame(oldUser: FavoriteUserEntity, newUser: FavoriteUserEntity): Boolean {
+                    return oldUser == newUser
+                }
+            }
     }
 }
